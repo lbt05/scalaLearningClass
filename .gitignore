@@ -1,5 +1,7 @@
-*/target/*
 */.idea/*
 *.class
 *.xml
 *.jar
+*/project/target
+*/project/project/target
+*/target
