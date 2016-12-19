@@ -216,7 +216,7 @@ object Anagrams {
   }
 
   def getLeftWords(wordsDictionary:List[Occurrences])(leftOcc:Occurrences):List[List[Occurrences]] = {
-    if(leftOcc.isEmpty) return List(List())
+    if(leftOcc.isEmpty)  List(List())
     else {
       for{
         occ <- wordsDictionary.filter{case x:Occurrences => isSubset(leftOcc,x)}
