@@ -199,16 +199,6 @@ object Anagrams {
     combineSentence(allSolutions)
   }
 
-  def getAllPossibleWords(occurrences: Occurrences):Map[Word,Occurrences] = {
-    if(occurrences.isEmpty){
-      Map[Word,Occurrences]()
-    }
-    val data =
-      for{subOccurrency <- combinations(occurrences)
-          word <- getWords(subOccurrency).filter(_!=Nil)
-      }yield  (word,subOccurrency)
-    data toMap
-  }
 
   def occurrencesMatch(totalOcc:Occurrences)(occ: Occurrences,occurrences: List[Occurrences]):Boolean = {
     val mergedOne = mergeOccurrences(occ::occurrences)
@@ -272,13 +262,8 @@ object Anagrams {
     sentenceOccurrencies match{
       case Nil => List(Nil)
       case _ => {
-        val allPossibleWords = getAllPossibleWords(sentenceOccurrencies)
-        val allPossibleOccurrences = allPossibleWords.groupBy(_._2).map{
-          case (o,pp) => pp match {
-            case mp:Map[Word,Occurrences] => (o,mp.keys.toList)
-          }
-        }
-        val allPossibleSolutions = getLeftWords(allPossibleOccurrences.map(_._1).toList)(sentenceOccurrencies)
+        val allPossibleOccurrences = dictionaryByOccurrences.keys.filter(isSubset(sentenceOccurrencies,_)).toList
+        val allPossibleSolutions = getLeftWords(allPossibleOccurrences)(sentenceOccurrencies)
         allPossibleSolutions.map(getSentences).flatten
       }
     }
